@@ -1,174 +1,262 @@
-🚆 Train Ticket Booking System (Node.js + SQL Server + Redis)
+# 🚆 Train Ticket Booking System (Node.js + SQL Server)
 
-A scalable backend system for booking train tickets with features like authentication, seat management, waiting list, caching, and admin controls.
+## 📌 Project Overview
 
-📌 Features
-🔐 JWT Authentication (User & Admin)
-🎫 Train-based ticket booking
-🪑 Auto seat allocation (no manual input)
-🎟️ TicketNo = SeatNo
-🧾 PNR generation
-⏳ Waiting list (max 2 users)
-🔄 Auto seat release on cancel/delete
-⚡ Redis caching for performance
-🛡️ Rate limiting (login & booking)
-⏰ Cron job for booking expiry
-👨‍💼 Admin APIs
-🏗️ Tech Stack
-Backend: Node.js, Express.js
-Database: SQL Server
-Cache: Redis
-Auth: JWT
-ORM: mssql (msnodesqlv8)
-📂 Project Structure
-src/
- ├── controllers/
- ├── services/
- ├── routes/
- ├── middleware/
- ├── config/
- ├── cron/
- └── app.js
-⚙️ Installation
-1. Clone Repo
-git clone https://github.com/your-username/train-ticket-booking.git
+The **Train Ticket Booking System** is a backend application built using **Node.js, Express, and SQL Server**.
+It allows users to book train tickets, manage seat availability, handle cancellations, and track completed journeys.
+
+This project simulates a real-world railway reservation system with features like:
+
+* Seat booking (Confirmed / Waiting)
+* Ticket cancellation
+* Automatic seat reassignment
+* Journey completion tracking
+
+---
+
+## 🛠️ Tech Stack
+
+* **Backend:** Node.js, Express.js
+* **Database:** SQL Server
+* **Tools:** SQL Server Management Studio (SSMS), Postman
+* **Version Control:** Git & GitHub
+
+---
+
+## 📂 Project Setup
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone <your-repo-link>
 cd train-ticket-booking
-2. Install Dependencies
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
 npm install
-3. Setup Environment
+```
 
-Create .env file:
+### 3️⃣ Start Server
 
-PORT=3000
-JWT_SECRET=your_secret_key
-4. Start Server
+```bash
 npm start
-🗄️ Database Setup
-Install SQL Server
-Create DB: TrainDB
-Run all stored procedures
-Create required tables:
-Users
-UserDetails
-Booking
-TrainDetails
-🧠 System Architecture
-Client (Postman)
-      ↓
-Routes (Express)
-      ↓
-Middleware (JWT, Role, Rate Limit)
-      ↓
-Controllers
-      ↓
-Services
-      ↓
-Stored Procedures (SQL Server)
-      ↓
-Database Tables
-      ↓
-Redis Cache
-🧾 ER Diagram
-Users
- ├── Id (PK)
- ├── Name
- ├── Role
+```
 
-UserDetails
- ├── Id (FK)
- ├── Email
- ├── Password
+---
 
-Booking
- ├── Bid (PK)
- ├── Id (FK → Users)
- ├── TicketNo
- ├── TrainNumber
- ├── FromPlace
- ├── ToPlace
- ├── TicketPrice
- ├── FromDate
- ├── ToDate
- ├── SeatNo
- ├── Status (CONFIRMED / WAITING / CANCELLED)
- ├── PNR
- ├── CreatedAt
+## 🗄️ Database Setup
 
-TrainDetails
- ├── Id (PK)
- ├── TrainName
- ├── TrainNumber
- ├── BogiNumber (B1, B2)
- ├── SeatNumber (T1–T10)
- ├── Status (AVAILABLE / BOOKED)
- ├── PNR
-🔄 Booking Flow
-User sends booking request with:
-Train Number
-Journey details
-System:
-Finds available seat
-Assigns seat automatically
-Generates TicketNo & PNR
-Saves booking
-If full:
-Adds to waiting list (max 2)
-On cancel:
-Seat becomes available
-Waiting user gets seat automatically
-📮 API Endpoints
-🔐 Auth APIs
-Register
-POST /api/auth/register
-Login
-POST /api/auth/login
-🎫 Booking APIs
-Create Booking
-POST /api/bookings
-{
-  "trainNumber": "T123",
-  "from": "Indore",
-  "to": "Mumbai",
-  "price": 500,
-  "fromDate": "2026-04-20",
-  "toDate": "2026-04-21",
-  "phone": "9876543210"
-}
-Get Bookings
-GET /api/bookings
-Cancel Booking
-PUT /api/bookings/cancel/:id
-Delete Booking
-DELETE /api/bookings/delete/:id
-Cancelled Tickets
-GET /api/bookings/cancelled
-Booking History
-GET /api/bookings/history
-👨‍💼 Admin API
-Get All Bookings
-GET /api/admin/bookings
-🧪 Demo Scenario
-Book 10 tickets → Train FULL
-Book 11th → WAITING
-Cancel 1 ticket → Seat AVAILABLE
-Waiting user gets seat automatically
-⚡ Performance Optimization
-Redis caching for bookings
-SQL stored procedures
-Rate limiting
-Indexed queries
-🔒 Security
-JWT authentication
-Role-based access (Admin/User)
-Rate limiting
-Input validation
-🚀 Future Enhancements
-🎨 React UI (seat layout)
-💳 Payment integration
-📱 Mobile app
-📄 Ticket PDF download
-🔔 Notifications (Email/SMS)
-🔐 Seat locking (real-time)
-👨‍💻 Author
+### Step 1: Create Database
 
-Bhupendra Wagh
+```sql
+CREATE DATABASE TrainDB;
+```
+
+### Step 2: Run SQL Script
+
+* Import `database.sql` file (included in root)
+* This will create:
+
+  * Tables
+  * Stored Procedures
+  * Constraints
+
+---
+
+## 🧩 Database Tables
+
+### 👤 Users
+
+Stores basic user information.
+
+* Id (PK)
+* Name
+* Role
+
+---
+
+### 🔐 UserDetails
+
+Stores login credentials.
+
+* Uid (PK)
+* Id (FK → Users)
+* Email
+* Password
+* Phone
+
+---
+
+### 🚆 TrainDetails
+
+Stores seat-level train information.
+
+* Id (PK)
+* TrainNumber
+* BogiNumber
+* SeatNumber
+* AvailableSeats
+* BookedSeats
+* WaitingSeats
+* Status
+
+---
+
+### 🎟️ Bookings
+
+Main booking table.
+
+* Bid (PK)
+* TicketNo
+* FromPlace / ToPlace
+* SeatNo
+* Status (ACTIVE / CONFIRMED / CANCELLED)
+
+---
+
+### ❌ CancelTicket
+
+Stores cancelled tickets.
+
+* Eid (PK)
+* Bid (FK → Bookings)
+* Status
+
+---
+
+### ✅ CompletedBooking
+
+Stores completed journeys.
+
+* Pid (PK)
+* Bid (FK → Bookings)
+* PreviousTicketNo
+
+---
+
+## 🔄 Booking Flow
+
+### ✔ Ticket Booking
+
+1. User selects train & seat
+2. System checks availability:
+
+   * If available → **CONFIRMED**
+   * Else → **WAITING**
+3. TrainDetails updated accordingly
+
+---
+
+### ❌ Ticket Cancellation
+
+1. Ticket moved to **CancelTicket**
+2. Seat becomes available
+3. Waiting ticket (if any) → moved to **CONFIRMED**
+
+---
+
+### ✅ Journey Completion
+
+1. After journey date:
+2. Booking moved to **CompletedBooking**
+3. Removed from active bookings
+
+---
+
+## ⚙️ Stored Procedures
+
+Project includes important stored procedures:
+
+* `sp_CreateBooking`
+* `sp_CancelBooking`
+* `sp_ExpireBookings`
+* `sp_GetBookingsByUser`
+* `sp_GetBookingById`
+
+---
+
+## 🔗 API Endpoints (Example)
+
+| Method | Endpoint          | Description       |
+| ------ | ----------------- | ----------------- |
+| POST   | /register         | Register user     |
+| POST   | /login            | User login        |
+| POST   | /book-ticket      | Book ticket       |
+| POST   | /cancel-ticket    | Cancel ticket     |
+| GET    | /bookings/:userId | Get user bookings |
+
+---
+
+## 📊 ER Diagram
+
+👉 (Add your ER diagram image here)
+
+---
+
+## 🏗️ Architecture Diagram
+
+👉 (Add your architecture diagram here)
+
+---
+
+## 📦 Project Files (Root)
+
+* `README.md`
+* `database.sql`
+* `PPT.pptx`
+* `ER_Diagram.png`
+* `Architecture.png`
+
+---
+
+## 🚀 Features Implemented
+
+✔ User Registration & Login
+✔ Train Seat Management
+✔ Ticket Booking System
+✔ Waiting List Logic
+✔ Ticket Cancellation
+✔ Auto Seat Reassignment
+✔ Completed Journey Tracking
+
+---
+
+## ⚠️ Known Issues / Improvements
+
+* Phone number validation pending
+* Email uniqueness validation improvement
+* UI not implemented (Backend only)
+
+---
+
+## 👨‍💻 Author
+
+**Bhupendra Wagh**
+
+---
+
+## ⭐ How to Run (Quick)
+
+```bash
+git clone <repo>
+npm install
+npm start
+```
+
+---
+
+## 📌 Notes
+
+* Make sure SQL Server is running
+* Update DB connection string in config file
+* Use Postman to test APIs
+
+---
+
+## 🎯 Conclusion
+
+This project demonstrates a complete backend system for train ticket booking with real-world scenarios like waiting list, cancellation, and journey completion.
+
+---
