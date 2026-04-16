@@ -1,4 +1,4 @@
-# 🚆 Train Ticket Booking System (Node.js + SQL Server)
+<img width="1232" height="833" alt="image" src="https://github.com/user-attachments/assets/c6a13429-7bb7-423a-ab9e-b523e7f75f8a" /><img width="1090" height="768" alt="image" src="https://github.com/user-attachments/assets/3574d531-2b79-47cd-b559-9e1d6bfaaea7" /># 🚆 Train Ticket Booking System (Node.js + SQL Server)
 
 ## 📌 Project Overview
 
@@ -191,13 +191,15 @@ Project includes important stored procedures:
 
 ## 📊 ER Diagram
 
-👉 (Add your ER diagram image here)
+<img width="1232" height="833" alt="image" src="https://github.com/user-attachments/assets/cbcb661c-8dcc-46ac-9bd2-c7611973d105" />
+
 
 ---
 
 ## 🏗️ Architecture Diagram
 
-👉 (Add your architecture diagram here)
+<img width="1089" height="1181" alt="image" src="https://github.com/user-attachments/assets/757690db-b3ce-4c2d-bbfc-3cecee49babd" />
+
 
 ---
 
