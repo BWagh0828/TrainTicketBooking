@@ -56,12 +56,33 @@ exports.getPreviousBookings = async (userId) => {
 
 // ✅ CANCEL BOOKING
 exports.cancelBooking = async (bid, userId) => {
+
+    // ✅ Check booking first
+    const check = await pool.request()
+        .input('Bid', sql.Int, bid)
+        .input('UserId', sql.Int, userId)
+        .query(`
+            SELECT Status FROM Booking
+            WHERE Bid = @Bid AND UserId = @UserId
+        `);
+
+    const booking = check.recordset[0];
+
+    if (!booking) {
+        throw { status: 404, message: "Booking not found" };
+    }
+
+    if (booking.Status === 'CANCELLED') {
+        throw { status: 400, message: "Ticket already cancelled" };
+    }
+
+    // ✅ Call SP
     await pool.request()
         .input('Bid', sql.Int, bid)
         .input('UserId', sql.Int, userId)
         .execute('sp_CancelBooking');
 
-    // 🔥 Clear cache
+    // ✅ Clear cache
     await redis.del(`booking_${userId}`);
 
     return { message: "Booking cancelled successfully" };
@@ -90,12 +111,6 @@ exports.deleteBooking = async (bid, userId) => {
     }
 
 
-    const booking = await pool.request()
-        .input('Bid', sql.Int, bid)
-        .query('SELECT SeatNo, TrainNumber FROM Booking WHERE Bid = @Bid');
-
-    const seat = booking.recordset[0];
-
     if (seat) {
         await pool.request()
             .input('TrainNumber', sql.VarChar, seat.TrainNumber)
@@ -110,7 +125,8 @@ exports.deleteBooking = async (bid, userId) => {
     // then delete
     await pool.request()
         .input('Bid', sql.Int, bid)
-        .query('DELETE FROM Booking WHERE Bid = @Bid');
+        .execute('sp_DeleteBooking');
+
 
     // ✅ SAFE CACHE CLEAR (NO ERROR EVEN IF userId MISSING)
     try {

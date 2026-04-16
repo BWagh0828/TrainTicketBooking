@@ -5,6 +5,24 @@ const jwt = require('jsonwebtoken');
 exports.register = async (data) => {
     const hashed = await bcrypt.hash(data.password, 10);
 
+
+
+     const existingUser = await pool.request()
+        .input('Email', sql.VarChar, data.email)
+        .input('Name', sql.VarChar, data.name)
+        .query(`
+            SELECT * FROM UserDetails
+            WHERE Email = @Email
+        `);
+
+    if (existingUser.recordset.length > 0) {
+        throw {
+            status: 400,
+            message: "User already registered with same email"
+        };
+    }
+
+
     await pool.request()
         .input('Name', sql.VarChar, data.name)
         .input('Email', sql.VarChar, data.email)
