@@ -1,4 +1,4 @@
-<img width="1232" height="833" alt="image" src="https://github.com/user-attachments/assets/c6a13429-7bb7-423a-ab9e-b523e7f75f8a" /><img width="1090" height="768" alt="image" src="https://github.com/user-attachments/assets/3574d531-2b79-47cd-b559-9e1d6bfaaea7" /># 🚆 Train Ticket Booking System (Node.js + SQL Server)
+# 🚆 Train Ticket Booking System (Node.js + SQL Server)
 
 ## 📌 Project Overview
 
