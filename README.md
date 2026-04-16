@@ -242,7 +242,8 @@ base_url = http://localhost:3000
 
 ## 📊 ER Diagram
 
-<img width="1232" height="833" alt="image" src="https://github.com/user-attachments/assets/cbcb661c-8dcc-46ac-9bd2-c7611973d105" />
+<img width="1147" height="767" alt="image" src="https://github.com/user-attachments/assets/3cefd45a-3c37-4f0e-8217-c732425b08f8" />
+
 
 
 ---
