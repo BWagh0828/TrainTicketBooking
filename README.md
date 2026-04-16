@@ -189,6 +189,57 @@ Project includes important stored procedures:
 
 ---
 
+## 📬 Postman Collection
+
+You can access and test all APIs using the Postman collection link below:
+
+🔗 **Postman Collection URL:**
+https://bhupendra0828-wagh-4867799.postman.co/workspace/My-Workspace~ccda94a9-3ec5-4679-bcf5-f803a7579e03/collection/53598363-bd6049f0-5226-421e-99e9-f3936b2ee86e?action=share&source=copy-link&creator=54065830
+
+---
+
+### 📥 How to Use
+
+1. Open Postman
+2. Click **Import**
+3. Select **Link** tab
+4. Paste the above URL
+5. Click **Continue → Import**
+
+---
+
+### ⚙️ Set Environment Variable
+
+Create an environment in Postman:
+
+```text
+base_url = http://localhost:3000
+```
+
+---
+
+### 🚀 Available APIs in Collection
+
+* 🔐 Register User
+* 🔐 Login User
+* 🎟️ Book Ticket
+* 📄 View Bookings
+* ❌ Cancel Ticket
+* 👁️ View Cancel Ticket
+* 👁️ View History 
+* 🗑️ Delete Ticket 
+
+---
+
+### 📌 Notes
+
+* Make sure your server is running before testing APIs
+* Update `base_url` if your port is different
+* Use valid request body data
+
+
+---
+
 ## 📊 ER Diagram
 
 <img width="1232" height="833" alt="image" src="https://github.com/user-attachments/assets/cbcb661c-8dcc-46ac-9bd2-c7611973d105" />
